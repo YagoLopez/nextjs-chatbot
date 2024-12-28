@@ -45,17 +45,13 @@ export async function GET() {
 
   const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
 
-  const InputStateAnnotation = Annotation.Root({
-    question: Annotation<string>,
-  });
-
   const StateAnnotation = Annotation.Root({
     question: Annotation<string>,
     context: Annotation<Document[]>,
     answer: Annotation<string>,
   });
 
-  const retrieve = async (state: typeof InputStateAnnotation.State) => {
+  const retrieve = async (state) => {
     const retrievedDocs = await vectorStore.similaritySearch(state.question);
     return { context: retrievedDocs };
   };
@@ -78,7 +74,7 @@ export async function GET() {
     .addEdge("generate", "__end__")
     .compile();
 
-  let inputs = { question: "Make a sumary of this blog post" };
+  const inputs = { question: "Make a sumary of this blog post" };
 
   const result = await graph.invoke(inputs);
 
