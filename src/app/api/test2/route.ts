@@ -43,7 +43,6 @@ export async function GET(req: NextApiRequest, res, NextApiResponse) {
     console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
   }
 
-  // return new Response(JSON.stringify(similaritySearchResults));
   return NextResponse.json({ similaritySearchResults });
 
 }
