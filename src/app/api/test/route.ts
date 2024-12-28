@@ -38,12 +38,17 @@ export async function GET() {
     chunkSize: 1000,
     chunkOverlap: 200,
   });
-  const splittedDocuments = await splitter.splitDocuments(docs);
+  const splitDocuments = await splitter.splitDocuments(docs);
 
-  await vectorStore.addDocuments(splittedDocuments)
+  await vectorStore.addDocuments(splitDocuments)
 
 
   const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  const InputStateAnnotation = Annotation.Root({
+    question: Annotation<string>,
+  });
 
   const StateAnnotation = Annotation.Root({
     question: Annotation<string>,
@@ -51,7 +56,7 @@ export async function GET() {
     answer: Annotation<string>,
   });
 
-  const retrieve = async (state) => {
+  const retrieve = async (state: typeof InputStateAnnotation.State) => {
     const retrievedDocs = await vectorStore.similaritySearch(state.question);
     return { context: retrievedDocs };
   };
