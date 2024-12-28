@@ -1,8 +1,10 @@
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import {MistralAIEmbeddings} from "@langchain/mistralai";
 import type { Document } from "@langchain/core/documents";
+import { NextResponse } from 'next/server'
+import type { NextApiRequest, NextApiResponse } from 'next'
 
-export async function GET() {
+export async function GET(req: NextApiRequest, res, NextApiResponse) {
   const embeddings = new MistralAIEmbeddings({
     model: "mistral-embed"
   });
@@ -41,5 +43,7 @@ export async function GET() {
     console.log(`* ${doc.pageContent} [${JSON.stringify(doc.metadata, null)}]`);
   }
 
-  return new Response(JSON.stringify(similaritySearchResults));
+  // return new Response(JSON.stringify(similaritySearchResults));
+  return NextResponse.json({ similaritySearchResults });
+
 }
