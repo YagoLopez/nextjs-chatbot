@@ -9,8 +9,7 @@ import { pull } from "langchain/hub";
 import { Document } from "@langchain/core/documents";
 import { Annotation } from "@langchain/langgraph";
 import { StateGraph } from "@langchain/langgraph";
-
-export const maxDuration = 30;
+import { NextResponse } from "next/server";
 
 export async function GET() {
 
@@ -83,6 +82,7 @@ export async function GET() {
 
   const result = await graph.invoke(inputs);
 
-  return new Response(JSON.stringify(result, null, 2));
+  return NextResponse.json({ result });
+
 }
 
