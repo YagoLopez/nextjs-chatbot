@@ -2,9 +2,8 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import {MistralAIEmbeddings} from "@langchain/mistralai";
 import type { Document } from "@langchain/core/documents";
 import { NextResponse } from 'next/server'
-import type { NextApiRequest, NextApiResponse } from 'next'
 
-export async function GET(req: NextApiRequest, res, NextApiResponse) {
+export async function GET() {
   const embeddings = new MistralAIEmbeddings({
     model: "mistral-embed"
   });
