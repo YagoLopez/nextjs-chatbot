@@ -29,12 +29,12 @@ export async function GET() {
   await vectorStore.addDocuments(documents);
 
 
-  const filter = (doc: any) => doc.metadata.source === "https://example.com";
+  // const filter = (doc: any) => doc.metadata.source === "https://example.com";
 
   const similaritySearchResults = await vectorStore.similaritySearch(
     "biology",
     2,
-    filter
+    // filter
   );
 
   for (const doc of similaritySearchResults) {
