@@ -9,9 +9,11 @@ import { pull } from "langchain/hub";
 import { Document } from "@langchain/core/documents";
 import { Annotation } from "@langchain/langgraph";
 import { StateGraph } from "@langchain/langgraph";
-import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function POST(req: Request, res: Response) {
+  const { prompt } = await req.json();
+  console.log("prompt", prompt);
+
   const llm = new ChatMistralAI({
     streamUsage: false,
     verbose: false,
@@ -92,15 +94,18 @@ export async function GET() {
     .addEdge("generate", "__end__")
     .compile();
 
-  const inputs = { question: "Make a sumary of this blog post" };
+  // const inputs = { question: "Make a sumary of this blog post" };
+  const inputs = { question: prompt };
 
-  const result = await graph.invoke(inputs);
+  // const result = await graph.invoke(inputs);
 
-  // const stream = await graph.stream(inputs, { streamMode: "messages" });
+  const stream = await graph.stream(inputs, { streamMode: "messages" });
   //
   // for await (const [message, _metadata] of stream) {
   //   process.stdout.write(message.content + "|");
   // }
 
-  return NextResponse.json(result);
+  // return NextResponse.json(result);
+  // return LangChainAdapter.toDataStreamResponse(stream);
+  res.status(200).send("OK");
 }
