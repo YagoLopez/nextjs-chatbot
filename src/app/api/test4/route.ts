@@ -5,12 +5,11 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { pull } from "langchain/hub";
 import { Document } from "@langchain/core/documents";
 import { Annotation } from "@langchain/langgraph";
 import { StateGraph } from "@langchain/langgraph";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request) {
   const { prompt } = await req.json();
   console.log("prompt", prompt);
 
@@ -58,7 +57,7 @@ export async function POST(req: Request, res: Response) {
     ["user", template],
   ]);
 
-  const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
+  // const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const InputStateAnnotation = Annotation.Root({
@@ -107,5 +106,5 @@ export async function POST(req: Request, res: Response) {
 
   // return NextResponse.json(result);
   // return LangChainAdapter.toDataStreamResponse(stream);
-  res.status(200).send("OK");
+  // res.status(200).send("OK");
 }

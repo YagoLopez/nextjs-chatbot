@@ -5,7 +5,6 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { pull } from "langchain/hub";
 import { Document } from "@langchain/core/documents";
 import { Annotation } from "@langchain/langgraph";
 import { StateGraph } from "@langchain/langgraph";
@@ -56,7 +55,7 @@ export async function GET() {
     ["user", template],
   ]);
 
-  const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
+  // const promptTemplate = await pull<ChatPromptTemplate>("rlm/rag-prompt");
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
   const InputStateAnnotation = Annotation.Root({

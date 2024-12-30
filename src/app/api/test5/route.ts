@@ -7,10 +7,13 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 import { LangChainAdapter } from "ai";
+import { type NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
   const { prompt } = await req.json();
-  console.log("prompt", prompt);
+  const searchParams = req.nextUrl.searchParams;
+  const remoteUrl = searchParams.get("url") || "";
+  console.log("remoteUrl", remoteUrl);
 
   const llm = new ChatMistralAI({
     streamUsage: false,
@@ -25,12 +28,9 @@ export async function POST(req: Request) {
 
   const vectorStore = new MemoryVectorStore(embeddings);
 
-  const cheerioLoader = new CheerioWebBaseLoader(
-    "https://lilianweng.github.io/posts/2023-06-23-agent/",
-    {
-      selector: "p",
-    },
-  );
+  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, {
+    selector: "p",
+  });
 
   const docs = await cheerioLoader.load();
 
@@ -43,7 +43,8 @@ export async function POST(req: Request) {
   await vectorStore.addDocuments(chunkDocuments);
 
   const template = `Use the following pieces of context to answer the question at the end.
-    If you don't know the answer, just say that you don't know, don't try to make up an answer.
+    If you don't know the answer, just say that you couln't find the answer in the provided context. 
+    Don't try to make enough information to answer, don't try to make up an answer.
     Use three sentences maximum and keep the answer as concise as possible.
     
     {context}
@@ -56,55 +57,13 @@ export async function POST(req: Request) {
     ["user", template],
   ]);
 
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  // const InputStateAnnotation = Annotation.Root({
-  //   question: Annotation<string>,
-  // });
-  //
-  // const StateAnnotation = Annotation.Root({
-  //   question: Annotation<string>,
-  //   context: Annotation<Document[]>,
-  //   answer: Annotation<string>,
-  // });
-
-  // const retrieve = async (state: typeof InputStateAnnotation.State) => {
-  //   const retrievedDocs = await vectorStore.similaritySearch(state.question);
-  //   return { context: retrievedDocs };
-  // };
-  //
-  // const generate = async (state: typeof StateAnnotation.State) => {
-  //   const docsContent = state.context.map((doc) => doc.pageContent).join("\n");
-  //   const messages = await promptTemplateCustom.invoke({
-  //     question: state.question,
-  //     context: docsContent,
-  //   });
-  //   const response = await llm.invoke(messages);
-  //   return { answer: response.content };
-  // };
-  //
-  // const graph = new StateGraph(StateAnnotation)
-  //   .addNode("retrieve", retrieve)
-  //   .addNode("generate", generate)
-  //   .addEdge("__start__", "retrieve")
-  //   .addEdge("retrieve", "generate")
-  //   .addEdge("generate", "__end__")
-  //   .compile();
-  //
-  const inputs = { question: "Make a sumary of this blog post" };
-  //
-  // const result = await graph.invoke(inputs);
-
-  let question = "Make a sumary of this blog post";
-
-  const retrievedDocs = await vectorStore.similaritySearch(question);
-  const docsContent = retrievedDocs.map((doc) => doc.pageContent).join("\n");
-  const messages = await promptTemplateCustom.invoke({
+  const relatedDocs = await vectorStore.similaritySearch(prompt);
+  const docsContent = relatedDocs.map((doc) => doc.pageContent).join("\n");
+  const ragResponse = await promptTemplateCustom.invoke({
     question: prompt,
     context: docsContent,
   });
 
-  // const answer = await llm.invoke(messages);
-  const stream = await llm.stream(messages);
-  console.log("stream", stream);
+  const stream = await llm.stream(ragResponse);
   return LangChainAdapter.toDataStreamResponse(stream);
 }
