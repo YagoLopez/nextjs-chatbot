@@ -53,17 +53,17 @@ export async function POST(req: NextRequest) {
     
     Helpful Answer:`;
 
-  const promptTemplateCustom = ChatPromptTemplate.fromMessages([
-    ["user", template],
-  ]);
+  const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
   const relatedDocs = await vectorStore.similaritySearch(prompt);
-  const docsContent = relatedDocs.map((doc) => doc.pageContent).join("\n");
-  const ragResponse = await promptTemplateCustom.invoke({
+  const mergedRelatedDocs = relatedDocs
+    .map((doc) => doc.pageContent)
+    .join("\n");
+  const context = await promptTemplate.invoke({
     question: prompt,
-    context: docsContent,
+    context: mergedRelatedDocs,
   });
 
-  const stream = await llm.stream(ragResponse);
+  const stream = await llm.stream(context);
   return LangChainAdapter.toDataStreamResponse(stream);
 }

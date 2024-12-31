@@ -22,13 +22,13 @@ export default function RagForm() {
     setUrl(e.target.value);
 
   return (
-    <div className="container mx-auto p-4">
-      <Card className="w-full max-w-2xl mx-auto shadow-xl">
+    <div className="container mx-auto p-4 h-[100vh]">
+      <Card className="w-full h-full shadow-xl">
         <CardHeader>
           <CardTitle>RAG Form</CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <CardContent className="overflow-auto h-[80vh]">
+          <form onSubmit={handleSubmit}>
             <div className="space-y-2">
               <label htmlFor="url1" className="text-sm font-medium">
                 URL 1
@@ -42,7 +42,7 @@ export default function RagForm() {
               />
             </div>
 
-            <div className="aspect-video w-full bg-gray-100 rounded-md flex items-center justify-center">
+            <div className="w-full bg-gray-100 rounded-md flex items-center justify-center h-[270px] my-2">
               {url ? (
                 <iframe
                   src={url}
@@ -65,8 +65,8 @@ export default function RagForm() {
                 }
               >
                 {isLoading
-                  ? "Fetching and Analyzing Remote Data..."
-                  : "ℹ️ Ask a question about the above web page"}
+                  ? "Analyzing Remote Data..."
+                  : "➡️ Ask a question about the above web page"}
               </label>
               <Input
                 id="question"
@@ -76,7 +76,11 @@ export default function RagForm() {
                 onChange={handleInputChange}
               />
             </div>
-            <Button type="submit" className="w-full" onClick={handleSubmit}>
+            <Button
+              type="submit"
+              className="w-full my-2"
+              onClick={handleSubmit}
+            >
               Submit
             </Button>
             <section>{completion}</section>
