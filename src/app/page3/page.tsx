@@ -66,7 +66,7 @@ export default function RagForm() {
               >
                 {isLoading
                   ? "Analyzing Remote Data..."
-                  : "➡️ Ask a question about the above web page"}
+                  : "➡️ Ask a question about the above web page (For example: Make a summary of this page)"}
               </label>
               <Input
                 id="question"
