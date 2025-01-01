@@ -10,10 +10,9 @@ import { LangChainAdapter } from "ai";
 import { type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { prompt } = await req.json();
+  const { prompt: userInput } = await req.json();
   const searchParams = req.nextUrl.searchParams;
   const remoteUrl = searchParams.get("url") || "";
-  console.log("remoteUrl", remoteUrl);
 
   const llm = new ChatMistralAI({
     streamUsage: false,
@@ -29,7 +28,7 @@ export async function POST(req: NextRequest) {
   const vectorStore = new MemoryVectorStore(embeddings);
 
   const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, {
-    selector: "p",
+    selector: "body",
   });
 
   const docs = await cheerioLoader.load();
@@ -55,15 +54,15 @@ export async function POST(req: NextRequest) {
 
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
-  const relatedDocs = await vectorStore.similaritySearch(prompt);
+  const relatedDocs = await vectorStore.similaritySearch(userInput);
   const mergedRelatedDocs = relatedDocs
     .map((doc) => doc.pageContent)
     .join("\n");
-  const context = await promptTemplate.invoke({
-    question: prompt,
+  const llmInput = await promptTemplate.invoke({
+    question: userInput,
     context: mergedRelatedDocs,
   });
 
-  const stream = await llm.stream(context);
+  const stream = await llm.stream(llmInput);
   return LangChainAdapter.toDataStreamResponse(stream);
 }
