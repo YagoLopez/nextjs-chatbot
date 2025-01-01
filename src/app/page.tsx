@@ -3,7 +3,7 @@
 import { ChangeEvent, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
 const INITIAL_URL = "https://lilianweng.github.io/posts/2023-06-23-agent/";
