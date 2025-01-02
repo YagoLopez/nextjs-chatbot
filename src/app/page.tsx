@@ -66,14 +66,13 @@ export default function TwoBlockPage() {
                 <Input
                   id="question"
                   type="text"
-                  placeholder="For example: Make a summary of the provided web page"
+                  placeholder="For example: Make a summary of the text"
                   value={userInput}
                   onChange={handleInputChange}
                 />
                 {isLoading ? (
                   <Button type="submit" className="w-full" disabled={isLoading}>
-                    <Loader2 className="animate-spin" /> Analyzing Remote
-                    Data...
+                    <Loader2 className="animate-spin" /> Processing Data...
                   </Button>
                 ) : (
                   <Button type="submit" className="w-full">

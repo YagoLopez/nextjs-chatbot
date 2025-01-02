@@ -11,8 +11,7 @@ import { type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
-  const searchParams = req.nextUrl.searchParams;
-  const remoteUrl = searchParams.get("url") || "";
+  const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
   const llm = new ChatMistralAI({
     streamUsage: false,
@@ -21,23 +20,19 @@ export async function POST(req: NextRequest) {
     temperature: 0,
   });
 
-  const embeddings = new MistralAIEmbeddings({
-    model: "mistral-embed",
-  });
+  const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
 
   const vectorStore = new MemoryVectorStore(embeddings);
 
-  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, {
-    selector: "body",
-  });
+  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
 
-  const docs = await cheerioLoader.load();
+  const remoteHtml = await cheerioLoader.load();
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 1000,
     chunkOverlap: 200,
   });
-  const chunkDocuments = await splitter.splitDocuments(docs);
+  const chunkDocuments = await splitter.splitDocuments(remoteHtml);
 
   await vectorStore.addDocuments(chunkDocuments);
 
@@ -55,9 +50,11 @@ export async function POST(req: NextRequest) {
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
   const relatedDocs = await vectorStore.similaritySearch(userInput);
+
   const mergedRelatedDocs = relatedDocs
     .map((doc) => doc.pageContent)
     .join("\n");
+
   const llmInput = await promptTemplate.invoke({
     question: userInput,
     context: mergedRelatedDocs,
