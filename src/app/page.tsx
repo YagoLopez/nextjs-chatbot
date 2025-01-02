@@ -25,6 +25,7 @@ export default function TwoBlockPage() {
   const onChangeUrl = (e: ChangeEvent<HTMLInputElement>) =>
     setUrl(e.target.value);
 
+  // noinspection TypeScriptValidateTypes
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8 flex flex-col">
       <Card className="flex-grow w-full max-w-6xl mx-auto my-4 sm:my-6 md:my-8 flex flex-col shadow-xl">
