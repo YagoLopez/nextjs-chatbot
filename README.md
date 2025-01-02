@@ -1,4 +1,14 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## RAG with web pages. By Yago López
+
+- This proof of concept allows to make questions about the contents of a web page and get answers
+- It uses **RAG**: Retrieval Augmented Generation
+  - In-memory Vector Database
+  - Mistral Embeddings: to create vectorial representations of un-structured information (text)
+  - Similarity Search
+  - Mistral LLM
+
+- The user must provide the URL to the web page
+- The answer is scoped to the web page text. . If the question is not related to the web page the AI will not be able to provide a response. This avoid hallucinations that happen with general chat bots
 
 ## Getting Started
 
@@ -14,23 +24,18 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- Add a URL pointing to a web page in the input box
+- Type a question about the text of the web page in the input box
+- Submit the question
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Technical Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- LLM: Mistral AI
+- AI Frameworks:
+  - Vercel AI SDK
+  - LangChain
+- Frontend Framework: NextJS
+- UI Library: Shadcdn
+- Typescript
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
