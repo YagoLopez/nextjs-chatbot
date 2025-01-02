@@ -35,11 +35,11 @@ export default function TwoBlockPage() {
           <div className="flex-grow flex flex-col lg:flex-row gap-6">
             {/* Left Block */}
             <div className="w-full lg:w-1/2 flex flex-col">
-              <label htmlFor="url1" className="text-sm font-medium">
-                ℹ️ Enter the web page url to get information
+              <label htmlFor="url1" className="text-blue-900 font-bold">
+                ️➡️ Enter the web page url to get information
               </label>
               <Input
-                id="url1"
+                id="url"
                 className="my-4"
                 type="text"
                 placeholder="Enter url to get information"
@@ -60,8 +60,8 @@ export default function TwoBlockPage() {
             {/* Right Block */}
             <div className="w-full lg:w-1/2 flex flex-col">
               <form onSubmit={handleSubmit} className="mb-4 space-y-2">
-                <label htmlFor="question">
-                  ➡️ Ask a question about the above web page
+                <label htmlFor="question" className="text-blue-900 font-bold">
+                  ➡️ Ask a question about the web page
                 </label>
                 <Input
                   id="question"
@@ -70,18 +70,18 @@ export default function TwoBlockPage() {
                   value={userInput}
                   onChange={handleInputChange}
                 />
-                {isLoading ? (
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    <Loader2 className="animate-spin" /> Processing Data...
-                  </Button>
-                ) : (
-                  <Button type="submit" className="w-full">
-                    Submit
-                  </Button>
-                )}
+                <Button type="submit" className="w-full" disabled={isLoading}>
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="animate-spin" /> Processing Data...
+                    </>
+                  ) : (
+                    "Submit"
+                  )}
+                </Button>
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
-                <CardContent className="my-8">
+                <CardContent className="mt-7">
                   <p>{responseFromAI}</p>
                 </CardContent>
               </Card>
