@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
@@ -26,6 +26,7 @@ const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 export default function TwoBlockPage() {
   const [url1, setUrl1] = useState("");
   const [url2, setUrl2] = useState(URLS[0]);
+  const aiResponseRef = useRef<HTMLDivElement>();
 
   const {
     completion: responseFromAI,
@@ -38,10 +39,13 @@ export default function TwoBlockPage() {
     onError: (err) => console.error("llm model error:", err),
   });
 
-  const onChangeUrl = (e: ChangeEvent<HTMLInputElement>) =>
+  const onInputUrlChange = (e: ChangeEvent<HTMLInputElement>) =>
     setUrl1(e.target.value);
 
-  const onSelectValueChange = (value: string) => setUrl2(value);
+  const onSelectUrlChange = (value: string) => {
+    setUrl2(value);
+    aiResponseRef.current.innerHTML = "";
+  };
 
   // noinspection TypeScriptValidateTypes
   return (
@@ -63,9 +67,9 @@ export default function TwoBlockPage() {
                 type="text"
                 placeholder="Type an url..."
                 value={url1}
-                onChange={onChangeUrl}
+                onChange={onInputUrlChange}
               />
-              <Select onValueChange={onSelectValueChange}>
+              <Select onValueChange={onSelectUrlChange}>
                 <SelectTrigger className="mb-2">
                   <SelectValue placeholder={URLS[0]} />
                 </SelectTrigger>
@@ -113,7 +117,7 @@ export default function TwoBlockPage() {
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
                 <CardContent className="mt-7">
-                  <p>{responseFromAI}</p>
+                  <p ref={aiResponseRef}>{responseFromAI}</p>
                 </CardContent>
               </Card>
             </div>
