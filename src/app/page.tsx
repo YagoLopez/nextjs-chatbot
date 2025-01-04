@@ -6,10 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "ai/react";
 import { Loader2 } from "lucide-react";
-const INITIAL_URL = "https://lilianweng.github.io/posts/2023-06-23-agent/";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+const URLS = [
+  "https://lilianweng.github.io/posts/2023-06-23-agent/",
+  "https://blog.openreplay.com/top-four-ai-powered-ui-frameworks-for-2024/?ref=dailydev",
+  "https://angularexperts.io/blog/advanced-typescript?ref=dailydev",
+];
+
+const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 
 export default function TwoBlockPage() {
-  const [url, setUrl] = useState(INITIAL_URL);
+  const [url1, setUrl1] = useState("");
+  const [url2, setUrl2] = useState(URLS[0]);
 
   const {
     completion: responseFromAI,
@@ -18,12 +34,14 @@ export default function TwoBlockPage() {
     handleSubmit,
     isLoading,
   } = useCompletion({
-    api: `/api/rag?url=${url}`,
+    api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
     onError: (err) => console.error("llm model error:", err),
   });
 
   const onChangeUrl = (e: ChangeEvent<HTMLInputElement>) =>
-    setUrl(e.target.value);
+    setUrl1(e.target.value);
+
+  const onSelectValueChange = (value: string) => setUrl2(value);
 
   // noinspection TypeScriptValidateTypes
   return (
@@ -37,24 +55,36 @@ export default function TwoBlockPage() {
             {/* Left Block */}
             <div className="w-full lg:w-1/2 flex flex-col">
               <label htmlFor="url1" className="text-blue-900 font-bold">
-                ️➡️ Enter the web page url to get information
+                ️➡️ Enter or select the url to fetch the information
               </label>
               <Input
-                id="url"
-                className="my-4"
+                id="url1"
+                className="my-2"
                 type="text"
-                placeholder="Enter url to get information"
-                value={url}
+                placeholder="Type an url..."
+                value={url1}
                 onChange={onChangeUrl}
               />
+              <Select onValueChange={onSelectValueChange}>
+                <SelectTrigger className="mb-2">
+                  <SelectValue placeholder={URLS[0]} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    {URLS.map((url) => (
+                      <SelectItem key={url} value={url}>
+                        {url}
+                      </SelectItem>
+                    ))}
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
               <div className="flex-grow w-full border border-blue-300 rounded overflow-hidden">
-                {url && (
-                  <iframe
-                    src={url}
-                    className="w-full h-full"
-                    title="Left Block iframe"
-                  />
-                )}
+                <iframe
+                  src={getSelectedUrl(url1, url2)}
+                  className="w-full h-full"
+                  title="Left Block iframe"
+                />
               </div>
             </div>
 
