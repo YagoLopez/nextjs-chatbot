@@ -18,7 +18,7 @@ export default function TwoBlockPage() {
     handleSubmit,
     isLoading,
   } = useCompletion({
-    api: `/api/test5?url=${url}`,
+    api: `/api/rag?url=${url}`,
     onError: (err) => console.error("llm model error:", err),
   });
 

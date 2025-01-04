@@ -13,7 +13,7 @@ export default function RagForm() {
 
   const { completion, input, handleInputChange, handleSubmit, isLoading } =
     useCompletion({
-      api: `/api/test5?url=${url}`,
+      api: `/api/rag?url=${url}`,
       // onResponse: (response) => response.text(),
       onError: (err) => console.error("mi error --->", err),
     });
