@@ -26,7 +26,7 @@ const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 export default function TwoBlockPage() {
   const [url1, setUrl1] = useState("");
   const [url2, setUrl2] = useState(URLS[0]);
-  const aiResponseRef = useRef<HTMLDivElement>();
+  const aiResponseRef = useRef<HTMLParagraphElement | null>(null);
 
   const {
     completion: responseFromAI,
@@ -44,7 +44,9 @@ export default function TwoBlockPage() {
 
   const onSelectUrlChange = (value: string) => {
     setUrl2(value);
-    aiResponseRef.current.innerHTML = "";
+    if (aiResponseRef.current !== null) {
+      aiResponseRef.current.innerHTML = "";
+    }
   };
 
   // noinspection TypeScriptValidateTypes
