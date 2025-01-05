@@ -43,6 +43,7 @@ export default function TwoBlockPage() {
     setUrl1(e.target.value);
 
   const onSelectUrlChange = (value: string) => {
+    setUrl1("");
     setUrl2(value);
     if (aiResponseRef.current !== null) {
       aiResponseRef.current.innerHTML = "";
@@ -53,7 +54,8 @@ export default function TwoBlockPage() {
   return (
     <div className="min-h-screen bg-gray-100 p-4 sm:p-6 md:p-8 flex flex-col">
       <Card className="flex-grow w-full max-w-6xl mx-auto my-4 sm:my-6 md:my-8 flex flex-col shadow-xl">
-        <CardTitle className="text-2xl font-bold text-center mt-5">
+        <CardTitle className="[text-shadow:_1px_3px_5px_#838383] text-2xl font-bold text-center flex justify-center mt-7 text-blue-600">
+          <img src="/chat-logo.png" alt="logo" className="w-10 h-10 mx-2" />
           Chat with a web page. By Yago López
         </CardTitle>
         <CardContent className="p-4 sm:p-6 flex-grow flex flex-col">
