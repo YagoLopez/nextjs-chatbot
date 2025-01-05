@@ -15,7 +15,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import Image from "next/image";
-
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 const URLS = [
   "https://lilianweng.github.io/posts/2023-06-23-agent/",
   "https://blog.openreplay.com/top-four-ai-powered-ui-frameworks-for-2024/?ref=dailydev",
@@ -72,14 +77,23 @@ export default function TwoBlockPage() {
               <label htmlFor="url1" className="text-blue-900 font-bold">
                 ️➡️ Enter or select the url to fetch the information
               </label>
-              <Input
-                id="url1"
-                className="my-2"
-                type="text"
-                placeholder="Type an url..."
-                value={url1}
-                onChange={onInputUrlChange}
-              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Input
+                      id="url1"
+                      className="my-2 hover:cursor-help"
+                      type="text"
+                      placeholder="Type an url..."
+                      value={url1}
+                      onChange={onInputUrlChange}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Warning: some websites prevent iframe embedding</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
               <Select onValueChange={onSelectUrlChange}>
                 <SelectTrigger className="mb-2">
                   <SelectValue placeholder={URLS[0]} />
