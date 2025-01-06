@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "ai/react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Github } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+
 const URLS = [
   "https://lilianweng.github.io/posts/2023-06-23-agent/",
   "https://blog.openreplay.com/top-four-ai-powered-ui-frameworks-for-2024/?ref=dailydev",
@@ -66,9 +67,11 @@ export default function TwoBlockPage() {
             height="10"
             src="/chat-logo.png"
             alt="logo"
-            className="mx-2"
+            className="mx-2 min-w-[100px] sm:min-w-[50px]"
           />
-          Chat with a web page. By Yago López
+          <div className="flex items-center">
+            Chat with a web page. By Yago López
+          </div>
         </CardTitle>
         <CardContent className="p-4 sm:p-6 flex-grow flex flex-col">
           <div className="flex-grow flex flex-col lg:flex-row gap-6">
@@ -149,6 +152,14 @@ export default function TwoBlockPage() {
           </div>
         </CardContent>
       </Card>
+      <a
+        href="https://github.com/YagoLopez/nextjs-chatbot"
+        className="flex items-center justify-center text-[11px] hover:text-zinc-50 text-bold hover:underline"
+        target="_blank"
+      >
+        <Github className="w-6 p-[3px] m-1" />
+        <div>View project on GitHub</div>
+      </a>
     </div>
   );
 }
