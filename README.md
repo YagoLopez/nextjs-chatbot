@@ -10,6 +10,10 @@
 - The user can provide the URL to the web page
 - The answer is scoped to the web page text. . If the question is not related to the web page the AI will not be able to provide a response. This avoid hallucinations that happen with general chat bots
 
+## Demo
+
+- https://nextjs-chatbot-topaz.vercel.app/
+
 ## Getting Started
 
 First, run the development server:

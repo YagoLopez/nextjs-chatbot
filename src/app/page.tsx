@@ -33,7 +33,7 @@ const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 export default function TwoBlockPage() {
   const [url1, setUrl1] = useState("");
   const [url2, setUrl2] = useState(URLS[0]);
-  const aiResponseRef = useRef<HTMLParagraphElement | null>(null);
+  const responseElRef = useRef<HTMLParagraphElement | null>(null);
 
   const {
     completion: responseFromAI,
@@ -52,8 +52,8 @@ export default function TwoBlockPage() {
   const onSelectUrlChange = (value: string) => {
     setUrl1("");
     setUrl2(value);
-    if (aiResponseRef.current !== null) {
-      aiResponseRef.current.innerHTML = "";
+    if (responseElRef.current !== null) {
+      responseElRef.current.innerHTML = "";
     }
   };
 
@@ -145,7 +145,7 @@ export default function TwoBlockPage() {
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
                 <CardContent className="mt-7">
-                  <p ref={aiResponseRef}>{responseFromAI}</p>
+                  <p ref={responseElRef}>{responseFromAI}</p>
                 </CardContent>
               </Card>
             </div>
@@ -154,7 +154,7 @@ export default function TwoBlockPage() {
       </Card>
       <a
         href="https://github.com/YagoLopez/nextjs-chatbot"
-        className="flex items-center justify-center text-[11px] hover:text-zinc-50 text-bold hover:underline"
+        className="flex items-center justify-center text-[11px] hover:text-cyan-950 text-bold text-white"
         target="_blank"
       >
         <Github className="w-6 p-[3px] m-1" />

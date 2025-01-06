@@ -26,13 +26,13 @@ export async function POST(req: NextRequest) {
 
   const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
 
-  const remoteHtml = await cheerioLoader.load();
+  const htmlText = await cheerioLoader.load();
 
   const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
+    chunkSize: 3000,
+    chunkOverlap: 400,
   });
-  const chunkDocuments = await splitter.splitDocuments(remoteHtml);
+  const chunkDocuments = await splitter.splitDocuments(htmlText);
 
   await vectorStore.addDocuments(chunkDocuments);
 
