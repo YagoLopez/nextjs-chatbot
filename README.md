@@ -1,54 +1,35 @@
-## RAG with web pages. By Yago López
+## Chat with web pages. By Yago López
 
-- This proof of concept allows to make questions about the contents of a web page and get answers
-- It uses **RAG**: Retrieval Augmented Generation
-  - In-memory Vector Database
-  - Mistral Embeddings: to create vectorial representations of unstructured information (text)
-  - Similarity Search
-  - Mistral LLM
+This README.md describes a web application that helps users ask questions about web pages using AI technology.
 
-- The user can provide the URL to the web page
-- The answer is scoped to the web page text. . If the question is not related to the web page the AI will not be able to provide a response. This avoid hallucinations that happen with general chat bots
+Purpose: The application lets users input a web page URL and then ask questions about the content of that webpage. It's like having a smart assistant that can read and understand any webpage you give it, then answer your questions about it.
 
-## Demo
+- **Inputs**:
+  - A URL to any web page you want to ask questions about
+  - Questions typed by the user about the webpage's content
+- **Outputs**: 
+  - The system provides answers to your questions, but only based on the information found in the webpage you provided. This means it won't make up information or give answers about topics not covered in the webpage. (No hallucinations)
 
-- https://nextjs-chatbot-topaz.vercel.app/
+## Architecture
 
-## Getting Started
+The application uses several smart technologies working together:
 
-First, run the development server:
+- It uses **RAG** (Retrieval Augmented Generation) which is like a smart search system
+- It stores webpage information in a special database (Vector Database)
+- It uses **Mistral AI** LLM to understand both the webpage content and your questions
+- It matches your questions with the most relevant parts of the webpage to give accurate answers
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Installation
 
-- Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-- Select or Add a URL in the input text box
-- Type a question about the text of the web page in the input text box
-- Submit the question
+- Install dependencies using npm, yarn, pnpm, or bun
+- Setting up three special keys (MISTRAL_API_KEY, LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY)
 
-## Technical Stack
+## Execution
 
-- LLM: Mistral AI
-- AI Frameworks:
-  - Vercel AI SDK
-  - LangChain
-- Frontend Framework: NextJS
-- UI Library: Shadcdn
-- Typescript
+- Start the application using a development server with the run dev script. For example: `npm run dev`
+- Open it in a web browser at http://localhost:3000
+- Input a webpage URL or choose one from the select box 
+- Ask questions about the webpage
+- Receive answers based on the webpage content
 
-## Environment Variables Needed
-
-```text
-MISTRAL_API_KEY=
-LANGCHAIN_TRACING_V2="true"
-LANGCHAIN_API_KEY=
-```
-
-(Not provided in the project)
+The application is built using modern web technologies like **NextJS** for the website structure, **Typescript** for coding, and special AI tools like **LangChain** and **Vercel AI SDK** as AI Frameworks. It's designed to be user-friendly while providing accurate, webpage-specific answers to user questions.

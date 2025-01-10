@@ -21,6 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import Markdown from "react-markdown";
 
 const URLS = [
   "https://lilianweng.github.io/posts/2023-06-23-agent/",
@@ -67,7 +68,7 @@ export default function TwoBlockPage() {
             height="10"
             src="/chat-logo.png"
             alt="logo"
-            className="mx-2 min-w-[100px] sm:min-w-[50px]"
+            className="mx-2 min-w-[100px] sm:min-w-[50px] border-2 border-gray-300 rounded-xl p-[10px] shadow-gray-300 shadow-lg animate-pulse"
           />
           <div className="flex items-center">
             Chat with a web page. By Yago López
@@ -144,8 +145,10 @@ export default function TwoBlockPage() {
                 </Button>
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
-                <CardContent className="mt-7">
-                  <p ref={responseElRef}>{responseFromAI}</p>
+                <CardContent className="p-4">
+                  <Markdown className="min-h-[290px] text-[14px] font-mono border-0">
+                    {responseFromAI}
+                  </Markdown>
                 </CardContent>
               </Card>
             </div>
