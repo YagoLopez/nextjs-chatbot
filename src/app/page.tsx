@@ -125,7 +125,7 @@ export default function TwoBlockPage() {
             <div className="w-full lg:w-1/2 flex flex-col">
               <form onSubmit={handleSubmit} className="mb-4 space-y-2">
                 <label htmlFor="question" className="text-blue-900 font-bold">
-                  ➡️ Ask a question about the web page
+                  ➡️ Ask a question about the web page (English or Spanish)
                 </label>
                 <Input
                   id="question"
