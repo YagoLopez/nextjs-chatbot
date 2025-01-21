@@ -10,6 +10,10 @@ Purpose: The application lets users input a web page URL and then ask questions 
 - **Outputs**: 
   - The system provides answers to your questions, but only based on the information found in the webpage you provided. This means it won't make up information or give answers about topics not covered in the webpage. (No hallucinations)
 
+## Demo
+
+- https://nextjs-chatbot-topaz.vercel.app/
+
 ## Architecture
 
 The application uses several smart technologies working together:
@@ -32,4 +36,4 @@ The application uses several smart technologies working together:
 - Ask questions about the webpage
 - Receive answers based on the webpage content
 
-The application is built using modern web technologies like **NextJS** for the website structure, **Typescript** for coding, and special AI tools like **LangChain** and **Vercel AI SDK** as AI Frameworks. It's designed to be user-friendly while providing accurate, webpage-specific answers to user questions.
+The application is built using modern web technologies like **NextJS** for the website structure, **Typescript** for coding, and special AI tools like **LangChainJS** and **Vercel AI SDK** as AI Frameworks. It's designed to be user-friendly while providing accurate, webpage-specific answers to user questions.
