@@ -26,7 +26,7 @@ The application uses several smart technologies working together:
 ## Installation
 
 - Install dependencies using npm, yarn, pnpm, or bun
-- Setting up three special keys (MISTRAL_API_KEY, LANGCHAIN_TRACING_V2, LANGCHAIN_API_KEY)
+- Rename the file `.env.template` to `.env` and set up the following environment variables:  `MISTRAL_API_KEY`, `LANGCHAIN_API_KEY`. To get this keys you must sing-up to Mistral and LangChain websites
 
 ## Execution
 
