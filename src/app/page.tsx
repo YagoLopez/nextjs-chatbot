@@ -44,7 +44,7 @@ export default function TwoBlockPage() {
     isLoading,
   } = useCompletion({
     api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
-    onError: (err) => console.error("llm model error:", err),
+    onError: (err) => alert("Response error:" + err),
   });
 
   const onInputUrlChange = (e: ChangeEvent<HTMLInputElement>) =>

@@ -8,8 +8,10 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { Document } from "@langchain/core/documents";
 import { Annotation } from "@langchain/langgraph";
 import { StateGraph } from "@langchain/langgraph";
+// import { LangChainAdapter } from "ai";
+// import { HumanMessage } from "@langchain/core/messages";
 
-export async function POST(req: Request) {
+export async function POST(req: Request, res: Response) {
   const { prompt } = await req.json();
   console.log("prompt", prompt);
 
@@ -93,18 +95,35 @@ export async function POST(req: Request) {
     .addEdge("generate", "__end__")
     .compile();
 
-  // const inputs = { question: "Make a sumary of this blog post" };
-  const inputs = { question: prompt };
+  const inputs = { question: "Make a sumary of this blog post" };
+  // const inputs = { question: prompt };
 
   // const result = await graph.invoke(inputs);
 
-  const stream = await graph.stream(inputs, { streamMode: "messages" });
+  // const stream = await graph.stream(inputs, { streamMode: "messages" });
   //
   // for await (const [message, _metadata] of stream) {
   //   process.stdout.write(message.content + "|");
   // }
 
   // return NextResponse.json(result);
-  // return LangChainAdapter.toDataStreamResponse(stream);
   // res.status(200).send("OK");
+  // return new Response("OK | ", { status: 200 });
+  // return LangChainAdapter.toDataStreamResponse(stream);
+  // return stream;
+
+  // const stream = graph.streamEvents(
+  //   {
+  //     messages: [new HumanMessage(prompt)],
+  //   },
+  //   { streamMode: "updates", version: "v2" },
+  // );
+
+  // const stream = graph.streamEvents({
+  //   messages: [new HumanMessage(messages[messages.length - 1].content)],
+  // }, { streamMode: "messages", version: "v2" });
+
+  // console.log("stream", stream);
+
+  // return LangChainAdapter.toDataStreamResponse(stream);
 }
