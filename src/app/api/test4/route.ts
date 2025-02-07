@@ -11,7 +11,7 @@ import { StateGraph } from "@langchain/langgraph";
 // import { LangChainAdapter } from "ai";
 // import { HumanMessage } from "@langchain/core/messages";
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request /* ,res: Response */) {
   const { prompt } = await req.json();
   console.log("prompt", prompt);
 
