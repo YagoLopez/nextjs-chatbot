@@ -14,6 +14,10 @@ Purpose: The application lets users input a web page URL and then ask questions 
 
 - https://nextjs-chatbot-topaz.vercel.app/
 
+## Performance Audit
+
+- https://nextjs-chatbot-topaz.vercel.app/lighthouse.html
+
 ## Architecture
 
 The application uses several smart technologies working together:
