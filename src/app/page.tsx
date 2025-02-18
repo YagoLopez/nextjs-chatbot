@@ -22,6 +22,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import Markdown from "react-markdown";
+import Link from "next/link";
 
 const URLS = [
   "https://lilianweng.github.io/posts/2023-06-23-agent/",
@@ -79,7 +80,7 @@ export default function TwoBlockPage() {
             {/* Left Block */}
             <div className="w-full lg:w-1/2 flex flex-col">
               <label htmlFor="url1" className="text-blue-900 font-bold">
-                ️➡️ Enter or select the url to fetch the information
+                ️1️⃣ Enter or select the url to fetch the information
               </label>
               <TooltipProvider>
                 <Tooltip>
@@ -125,7 +126,7 @@ export default function TwoBlockPage() {
             <div className="w-full lg:w-1/2 flex flex-col">
               <form onSubmit={handleSubmit} className="mb-4 space-y-2">
                 <label htmlFor="question" className="text-blue-900 font-bold">
-                  ➡️ Ask a question about the web page (English or Spanish)
+                  2️⃣ Ask a question about the web page (English or Spanish)
                 </label>
                 <Input
                   id="question"
@@ -155,9 +156,17 @@ export default function TwoBlockPage() {
           </div>
         </CardContent>
       </Card>
+      <Link
+        href="/lighthouse.html"
+        target="_blank"
+        className="flex items-center justify-center text-[16px] hover:text-cyan-950 text-bold text-white"
+        title="See the performance audit of this page"
+      >
+        📊 Performance Audit
+      </Link>
       <a
         href="https://github.com/YagoLopez/nextjs-chatbot"
-        className="flex items-center justify-center text-[11px] hover:text-cyan-950 text-bold text-white"
+        className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
         target="_blank"
       >
         <Github className="w-6 p-[3px] m-1" />
