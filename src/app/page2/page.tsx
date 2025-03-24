@@ -1,6 +1,6 @@
 "use client";
 
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 import { ChangeEvent, useState } from "react";
 
 const defaultUrl = "https://lilianweng.github.io/posts/2023-06-23-agent/";

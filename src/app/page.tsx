@@ -4,8 +4,9 @@ import { ChangeEvent, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 import { Loader2, Github } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -131,7 +132,7 @@ export default function TwoBlockPage() {
                 <Input
                   id="question"
                   type="text"
-                  placeholder="For example: Make a summary of the text"
+                  placeholder="For example: Make a summary of the provided text"
                   value={userInput}
                   onChange={handleInputChange}
                 />

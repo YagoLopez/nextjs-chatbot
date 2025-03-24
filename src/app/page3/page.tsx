@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useCompletion } from "ai/react";
+import { useCompletion } from "@ai-sdk/react";
 
 const defaultUrl = "https://lilianweng.github.io/posts/2023-06-23-agent/";
 
@@ -66,7 +66,7 @@ export default function RagForm() {
               >
                 {isLoading
                   ? "Analyzing Remote Data..."
-                  : "➡️ Ask a question about the above web page (For example: Make a summary of the text)"}
+                  : "➡️ Ask a question about the above web page (For example: Make a summary of the provided text)"}
               </label>
               <Input
                 id="question"
