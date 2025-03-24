@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
 
   await vectorStore.addDocuments(chunkDocuments);
 
-  const template = `Use the following pieces of text to answer the question at the end.
+  const template = `Use the following pieces of context to answer the question at the end.
     If you don't know the answer, just say that you couldn't find the information in the provided context. 
     Don't try to make enough information to answer, don't try to make up an answer.
     Keep the answer as concise as possible.
