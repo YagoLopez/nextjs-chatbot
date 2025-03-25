@@ -132,7 +132,7 @@ export default function TwoBlockPage() {
                 <Input
                   id="question"
                   type="text"
-                  placeholder="For example: Make a summary of the provided text"
+                  placeholder="For example: Make a summary of the text"
                   value={userInput}
                   onChange={handleInputChange}
                 />
