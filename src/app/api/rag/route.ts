@@ -36,18 +36,11 @@ export async function POST(req: NextRequest) {
 
   await vectorStore.addDocuments(chunkDocuments);
 
-  const template = `Use the following provided text to answer the question asked at the end.
-    If you don't know the answer, just say that you couldn't find the information in the provided context. 
+  const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
+  
+    If you don't know the answer, just say that you couldn't find any information related in the provided context. 
     Don't try to make enough information to answer, don't try to make up an answer.
-    Keep the answer as concise as possible.
-    
-    - This is the provided text:
-    {context}
-    
-    - This is the question you should answer: 
-    {question}
-    
-    Helpful Answer:`;
+    Keep the answer as concise as possible.`;
 
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
