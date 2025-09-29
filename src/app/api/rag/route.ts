@@ -9,6 +9,8 @@ import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { LangChainAdapter } from "ai";
 import { type NextRequest } from "next/server";
 
+export const maxDuration = 60;
+
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
