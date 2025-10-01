@@ -24,7 +24,9 @@ export async function POST(req: NextRequest) {
 
   const vectorStore = new MemoryVectorStore(embeddings);
 
-  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
+  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, {
+    selector: "body",
+  });
 
   const htmlText = await cheerioLoader.load();
 
