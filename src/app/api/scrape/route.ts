@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import { chromium } from "playwright";
+import { URLS } from "@/lib/constants";
 
 // Force the function to be dynamic and not cached
 export const dynamic = "force-dynamic";
@@ -10,33 +10,33 @@ export async function GET() {
   console.log("Starting scraper...");
 
   try {
-    // Launch a new browser instance
-    browser = await chromium.launch({
-      headless: true, // Run in headless mode
-    });
-
+    browser = await chromium.launch({ headless: true });
     const page = await browser.newPage();
-
-    // Navigate to the page you want to scrape
-    await page.goto("https://playwright.dev/");
+    await page.goto(URLS[1]);
 
     console.log("Page loaded. Scraping content...");
 
-    // Scrape the content using locators
-    const heading = await page.locator("h1").textContent();
+    const heading = await page.locator("body").textContent();
 
     console.log("Scraping complete.");
 
-    // Return the scraped data
-    return NextResponse.json({ heading });
+    // Return the scraped data as plain text
+    return new Response(heading || "No heading found.", {
+      status: 200,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
   } catch (error) {
     console.error("Error during scraping:", error);
-    return NextResponse.json(
-      { error: "Failed to scrape the page." },
-      { status: 500 },
-    );
+    // Also return the error as plain text
+    return new Response("Failed to scrape the page.", {
+      status: 500,
+      headers: {
+        "Content-Type": "text/plain",
+      },
+    });
   } finally {
-    // Ensure the browser is closed even if an error occurs
     if (browser) {
       await browser.close();
       console.log("Browser closed.");
