@@ -48,6 +48,9 @@ export async function POST(req: NextRequest) {
 
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
+  console.log("promptTemplate", promptTemplate);
+  console.log("userInput", userInput);
+
   const relatedDocs = await vectorStore.similaritySearch(userInput);
 
   const mergedRelatedDocs = relatedDocs
