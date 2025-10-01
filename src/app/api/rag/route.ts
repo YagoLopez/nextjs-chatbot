@@ -28,6 +28,8 @@ export async function POST(req: NextRequest) {
 
   const htmlText = await cheerioLoader.load();
 
+  console.log("htmlText", htmlText);
+
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 3000,
     chunkOverlap: 400,
