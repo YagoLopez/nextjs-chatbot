@@ -14,7 +14,10 @@ export async function POST(req: NextRequest) {
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
   if (!remoteUrl) {
-    return new Response("URL parameter is missing", { status: 400 });
+    return NextResponse.json(
+      { error: "URL parameter is missing" },
+      { status: 400 },
+    );
   }
 
   try {
@@ -31,7 +34,10 @@ export async function POST(req: NextRequest) {
         "Failed to scrape website, no HTML content.",
         scrapeResponse,
       );
-      return new Response("Failed to scrape the website.", { status: 500 });
+      return NextResponse.json(
+        { error: "Failed to scrape the website." },
+        { status: 500 },
+      );
     }
 
     const $ = cheerio.load(scrapeResponse.html);
@@ -41,9 +47,10 @@ export async function POST(req: NextRequest) {
     const plainText = $("p").text();
 
     if (!plainText) {
-      return new Response("Could not extract text from the website.", {
-        status: 500,
-      });
+      return NextResponse.json(
+        { error: "Could not extract text from the website." },
+        { status: 500 },
+      );
     }
 
     const scrapedDocument = new Document({

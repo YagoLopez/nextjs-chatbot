@@ -26,7 +26,7 @@ class ScrapingService {
     const page = await browser.newPage();
     try {
       await page.goto(url);
-      const body = await page.locator("body").textContent();
+      const body = await page.evaluate(() => document.body.innerText);
       return body || "No body found.";
     } finally {
       await page.close();
