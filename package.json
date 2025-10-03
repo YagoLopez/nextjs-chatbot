@@ -17,7 +17,7 @@
     "@langchain/langgraph": "^0.4.9",
     "@langchain/mistralai": "^0.2.3",
     "@langchain/textsplitters": "^0.1.0",
-    "@mendable/firecrawl-js": "^4.3.7",
+    "@mendable/firecrawl-js": "^1.4.3",
     "@radix-ui/react-select": "^2.2.6",
     "@radix-ui/react-slot": "^1.2.3",
     "@radix-ui/react-tooltip": "^1.2.8",

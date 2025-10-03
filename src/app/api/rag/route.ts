@@ -5,9 +5,9 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { Document } from "@langchain/core/documents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 import { LangChainAdapter } from "ai";
-import { type NextRequest } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import Firecrawl from "@mendable/firecrawl-js";
-import removeMarkdown from "remove-markdown";
+import * as cheerio from "cheerio";
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
@@ -17,66 +17,89 @@ export async function POST(req: NextRequest) {
     return new Response("URL parameter is missing", { status: 400 });
   }
 
-  const llm = new ChatMistralAI({
-    streamUsage: false,
-    verbose: false,
-    model: "mistral-small-2506",
-    temperature: 0,
-  });
+  try {
+    const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
-  const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
+    const scrapeResult = await firecrawl.scrapeUrl(remoteUrl, {
+      formats: ["html"],
+      onlyMainContent: true,
+      maxAge: 3600,
+    });
+    debugger;
+    if (!scrapeResult.html) {
+      console.error("Failed to scrape website, no HTML content.", scrapeResult);
+      return new Response("Failed to scrape the website.", { status: 500 });
+    }
 
-  const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
+    // Load the HTML into cheerio
+    const $ = cheerio.load(scrapeResult.html);
 
-  const vectorStore = new MemoryVectorStore(embeddings);
+    // Remove script and style tags to clean up the text
+    $("script, style").remove();
 
-  const scrapeResponse = await firecrawl.scrape(remoteUrl, {
-    formats: ["markdown", "html"],
-  });
+    // Extract text from the body, which is a common practice
+    const plainText = $("body").text();
 
-  if (!scrapeResponse) {
-    console.error("Failed to scrape website, response was:", scrapeResponse);
-    return new Response("Failed to scrape the website.", { status: 500 });
-  }
+    if (!plainText) {
+      return new Response("Could not extract text from the website.", {
+        status: 500,
+      });
+    }
 
-  // Convert markdown to plain text using remove-markdown
-  const plainText = removeMarkdown(scrapeResponse.markdown || "");
+    const scrapedDocument = new Document({
+      pageContent: plainText,
+      metadata: scrapeResult.metadata || {},
+    });
 
-  console.log("plainText", plainText);
+    const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
 
-  const scrapedDocument = new Document({
-    pageContent: plainText,
-    metadata: scrapeResponse.metadata || {},
-  });
+    const vectorStore = new MemoryVectorStore(embeddings);
 
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 3000,
-    chunkOverlap: 400,
-  });
-  const chunkDocuments = await splitter.splitDocuments([scrapedDocument]);
+    const splitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 3000,
+      chunkOverlap: 400,
+    });
 
-  await vectorStore.addDocuments(chunkDocuments);
+    const chunkDocuments = await splitter.splitDocuments([scrapedDocument]);
 
-  const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
+    await vectorStore.addDocuments(chunkDocuments);
+
+    const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
   
     If you don't know the answer, just say that you couldn't find any information related in the provided context. 
     Don't try to make enough information to answer, don't try to make up an answer.
     Keep the answer as concise as possible.`;
 
-  const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
+    const promptTemplate = ChatPromptTemplate.fromMessages([
+      ["user", template],
+    ]);
 
-  const relatedDocs = await vectorStore.similaritySearch(userInput);
+    const relatedDocs = await vectorStore.similaritySearch(userInput);
 
-  const mergedRelatedDocs = relatedDocs
-    .map((doc) => doc.pageContent)
-    .join("\n");
+    const mergedRelatedDocs = relatedDocs
+      .map((doc) => doc.pageContent)
+      .join("\n");
 
-  const llmInput = await promptTemplate.invoke({
-    question: userInput,
-    context: mergedRelatedDocs,
-  });
+    const llm = new ChatMistralAI({
+      streamUsage: false,
+      verbose: false,
+      model: "mistral-small-2506",
+      temperature: 0,
+    });
 
-  const stream = await llm.stream(llmInput);
+    const llmInput = await promptTemplate.invoke({
+      question: userInput,
+      context: mergedRelatedDocs,
+    });
 
-  return LangChainAdapter.toDataStreamResponse(stream);
+    const stream = await llm.stream(llmInput);
+
+    return LangChainAdapter.toDataStreamResponse(stream);
+  } catch (error) {
+    console.error("[RAG API Error]", error);
+    return NextResponse.json(
+      { error: "An internal error occurred." },
+      { status: 500 },
+    );
+  }
 }
