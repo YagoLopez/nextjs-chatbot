@@ -52,11 +52,13 @@ export async function POST(req: NextRequest) {
     .map((doc) => doc.pageContent)
     .join("\n");
 
-  return NextResponse.json({ test: "hola" });
-
+  // const llmInput = await promptTemplate.invoke({
+  //   question: userInput,
+  //   context: mergedRelatedDocs,
+  // });
   const llmInput = await promptTemplate.invoke({
-    question: userInput,
-    context: mergedRelatedDocs,
+    question: "hola, cómo te llamas?",
+    context: "Mi nombre es Pepe",
   });
 
   const stream = await llm.stream(llmInput);
