@@ -18,7 +18,7 @@ export async function POST(/*req: NextRequest*/) {
   const llm = new ChatMistralAI({
     streamUsage: false,
     verbose: false,
-    model: "mistral-large-latest",
+    model: "mistral-7b-instruct",
     temperature: 0,
   });
 
