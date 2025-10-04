@@ -4,7 +4,7 @@ import { ChatMistralAI } from "@langchain/mistralai";
 // import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 //
 // import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
+// import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 import { LangChainAdapter } from "ai";
 // import { type NextRequest /*NextResponse*/ } from "next/server";
@@ -38,12 +38,12 @@ export async function POST(/*req: NextRequest*/) {
 
   // await vectorStore.addDocuments(chunkDocuments);
 
-  const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
-  
-    If you don't know the answer, just say that you couldn't find any information related in the provided context. 
-    Don't try to make enough information to answer, don't try to make up an answer.
-    Keep the answer as concise as possible.`;
-  const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
+  // const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
+  //
+  //   If you don't know the answer, just say that you couldn't find any information related in the provided context.
+  //   Don't try to make enough information to answer, don't try to make up an answer.
+  //   Keep the answer as concise as possible.`;
+  // const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
   // const relatedDocs = await vectorStore.similaritySearch(userInput);
   // console.log("relateddocs", relatedDocs);
@@ -52,15 +52,15 @@ export async function POST(/*req: NextRequest*/) {
   //   .map((doc) => doc.pageContent)
   //   .join("\n");
 
-  const llmInput = await promptTemplate.invoke({
-    question: "Cómo te llamas?",
-    context: "Mi nombre es Pepe",
-  });
+  // const llmInput = await promptTemplate.invoke({
+  //   question: "Cómo te llamas?",
+  //   context: "Mi nombre es Pepe",
+  // });
   // const llmInput = await promptTemplate.invoke({
   //   question: userInput,
   //   context: mergedRelatedDocs,
   // });
 
-  const stream = await llm.stream(llmInput);
+  const stream = await llm.stream("hola cómo estas?");
   return LangChainAdapter.toDataStreamResponse(stream);
 }
