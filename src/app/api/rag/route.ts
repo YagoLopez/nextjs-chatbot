@@ -6,7 +6,7 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-import { LangChainAdapter } from "ai";
+// import { LangChainAdapter } from "ai";
 import { type NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
