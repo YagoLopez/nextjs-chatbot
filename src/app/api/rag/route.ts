@@ -47,21 +47,20 @@ export async function POST(req: NextRequest) {
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
   const relatedDocs = await vectorStore.similaritySearch(userInput);
+  console.log("relateddocs", relatedDocs);
 
   const mergedRelatedDocs = relatedDocs
     .map((doc) => doc.pageContent)
     .join("\n");
 
-  console.log("mergeRelatedDocs", mergedRelatedDocs);
-
+  const llmInput = await promptTemplate.invoke({
+    question: "Cómo te llamas?",
+    context: "Mi nombre es Pepe",
+  });
   // const llmInput = await promptTemplate.invoke({
   //   question: userInput,
   //   context: mergedRelatedDocs,
   // });
-  const llmInput = await promptTemplate.invoke({
-    question: "hola, cómo te llamas?",
-    context: "Mi nombre es Pepe",
-  });
 
   const stream = await llm.stream(llmInput);
   return LangChainAdapter.toDataStreamResponse(stream);
