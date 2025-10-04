@@ -7,7 +7,7 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
 import { LangChainAdapter } from "ai";
-import { type NextRequest, NextResponse } from "next/server";
+import { type NextRequest /*NextResponse*/ } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
@@ -51,6 +51,8 @@ export async function POST(req: NextRequest) {
   const mergedRelatedDocs = relatedDocs
     .map((doc) => doc.pageContent)
     .join("\n");
+
+  console.log("mergeRelatedDocs", mergedRelatedDocs);
 
   // const llmInput = await promptTemplate.invoke({
   //   question: userInput,
