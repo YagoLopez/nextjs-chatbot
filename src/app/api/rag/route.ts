@@ -6,8 +6,8 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-// import { LangChainAdapter } from "ai";
-import { type NextRequest } from "next/server";
+import { LangChainAdapter } from "ai";
+import { type NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
@@ -52,12 +52,13 @@ export async function POST(req: NextRequest) {
     .map((doc) => doc.pageContent)
     .join("\n");
 
+  return NextResponse.json({ test: "hola" });
+
   const llmInput = await promptTemplate.invoke({
     question: userInput,
     context: mergedRelatedDocs,
   });
 
   const stream = await llm.stream(llmInput);
-  // return LangChainAdapter.toDataStreamResponse(stream);
-  return new Response(stream);
+  return LangChainAdapter.toDataStreamResponse(stream);
 }
