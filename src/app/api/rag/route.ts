@@ -49,9 +49,9 @@ export async function POST(req: NextRequest) {
   const relatedDocs = await vectorStore.similaritySearch(userInput);
   console.log("relateddocs", relatedDocs);
 
-  const mergedRelatedDocs = relatedDocs
-    .map((doc) => doc.pageContent)
-    .join("\n");
+  // const mergedRelatedDocs = relatedDocs
+  //   .map((doc) => doc.pageContent)
+  //   .join("\n");
 
   const llmInput = await promptTemplate.invoke({
     question: "Cómo te llamas?",
