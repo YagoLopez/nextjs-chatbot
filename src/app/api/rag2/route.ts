@@ -7,10 +7,10 @@ import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
 
 import { type NextRequest } from "next/server";
+
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
-  debugger;
   const { prompt: userInput } = await req.json();
 
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
