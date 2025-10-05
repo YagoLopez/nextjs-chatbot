@@ -45,7 +45,8 @@ export default function TwoBlockPage() {
     handleSubmit,
     isLoading,
   } = useCompletion({
-    api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
+    // api: `/api/rag2?url=${getSelectedUrl(url1, url2)}`,
+    api: `/api/rag2`,
     onError: (err) => alert("Response error:" + err),
   });
 
