@@ -60,7 +60,6 @@ export default function TwoBlockPage() {
     }
   };
 
-  // noinspection TypeScriptValidateTypes
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8 flex flex-col bg-gradient-to-tl from-lime-200 via-sky-500 to-violet-500">
       <Card className="flex-grow w-full max-w-6xl mx-auto my-4 sm:my-6 md:my-8 flex flex-col shadow-xl">
