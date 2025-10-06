@@ -12,7 +12,7 @@ Purpose: The application lets users input a web page URL and then ask questions 
 
 ## Demo
 
-- https://nextjs-chatbot-rl1m-21evdkml9-yago-lopezs-projects.vercel.app/
+- https://nextjs-chatbot-rl1m.vercel.app/
 
 ## Performance Audit
 
