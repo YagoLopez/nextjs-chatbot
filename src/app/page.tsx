@@ -24,12 +24,7 @@ import {
 } from "@/components/ui/tooltip";
 import Markdown from "react-markdown";
 import Link from "next/link";
-
-const URLS = [
-  "https://lilianweng.github.io/posts/2023-06-23-agent/",
-  "https://blog.openreplay.com/top-four-ai-powered-ui-frameworks-for-2024/?ref=dailydev",
-  "https://angularexperts.io/blog/advanced-typescript?ref=dailydev",
-];
+import { URLS } from "@/lib/utils";
 
 const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 
@@ -45,7 +40,7 @@ export default function TwoBlockPage() {
     handleSubmit,
     isLoading,
   } = useCompletion({
-    api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
+    api: `/api/rag2?url=${getSelectedUrl(url1, url2)}`,
     onError: (err) => alert("Response error:" + err),
   });
 
@@ -60,7 +55,6 @@ export default function TwoBlockPage() {
     }
   };
 
-  // noinspection TypeScriptValidateTypes
   return (
     <div className="min-h-screen p-4 sm:p-6 md:p-8 flex flex-col bg-gradient-to-tl from-lime-200 via-sky-500 to-violet-500">
       <Card className="flex-grow w-full max-w-6xl mx-auto my-4 sm:my-6 md:my-8 flex flex-col shadow-xl">
