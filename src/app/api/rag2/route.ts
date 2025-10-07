@@ -28,6 +28,7 @@ export async function POST(req: NextRequest) {
     chunkSize: 3000,
     chunkOverlap: 400,
   });
+
   const chunkDocuments = await splitter.splitDocuments(htmlText);
 
   await vectorStore.addDocuments(chunkDocuments);

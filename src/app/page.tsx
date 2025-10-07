@@ -24,12 +24,7 @@ import {
 } from "@/components/ui/tooltip";
 import Markdown from "react-markdown";
 import Link from "next/link";
-
-const URLS = [
-  "https://lilianweng.github.io/posts/2023-06-23-agent/",
-  "https://blog.openreplay.com/top-four-ai-powered-ui-frameworks-for-2024/?ref=dailydev",
-  "https://angularexperts.io/blog/advanced-typescript?ref=dailydev",
-];
+import { URLS } from "@/lib/utils";
 
 const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 

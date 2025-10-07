@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@ai-sdk/mistral": "^2.0.17",
-    "@ai-sdk/react": "^2.0.60",
     "@ai-sdk/provider": "^2.0.0",
     "@ai-sdk/provider-utils": "^2.0.0",
+    "@ai-sdk/react": "^2.0.60",
     "@langchain/community": "^0.3.57",
     "@langchain/core": "^0.3.78",
     "@langchain/langgraph": "^0.4.9",
