@@ -2,37 +2,58 @@ import { ChatMistralAI } from "@langchain/mistralai";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-
-import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
+import { Document } from "@langchain/core/documents";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-
 import { LangChainAdapter } from "ai";
 import { type NextRequest } from "next/server";
+import Firecrawl from "@mendable/firecrawl-js";
+import removeMarkdown from "remove-markdown";
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
+  if (!remoteUrl) {
+    return new Response("URL parameter is missing", { status: 400 });
+  }
+
   const llm = new ChatMistralAI({
     streamUsage: false,
     verbose: false,
-    model: "mistral-large-latest",
+    model: "mistral-small-2506",
     temperature: 0,
   });
+
+  const firecrawl = new Firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY });
 
   const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
 
   const vectorStore = new MemoryVectorStore(embeddings);
 
-  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
+  const scrapeResponse = await firecrawl.scrape(remoteUrl, {
+    formats: ["markdown", "html"],
+  });
 
-  const htmlText = await cheerioLoader.load();
+  if (!scrapeResponse) {
+    console.error("Failed to scrape website, response was:", scrapeResponse);
+    return new Response("Failed to scrape the website.", { status: 500 });
+  }
+
+  // Convert markdown to plain text using remove-markdown
+  const plainText = removeMarkdown(scrapeResponse.markdown || "");
+
+  console.log("plainText", plainText);
+
+  const scrapedDocument = new Document({
+    pageContent: plainText,
+    metadata: scrapeResponse.metadata || {},
+  });
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 3000,
     chunkOverlap: 400,
   });
-  const chunkDocuments = await splitter.splitDocuments(htmlText);
+  const chunkDocuments = await splitter.splitDocuments([scrapedDocument]);
 
   await vectorStore.addDocuments(chunkDocuments);
 
@@ -56,5 +77,6 @@ export async function POST(req: NextRequest) {
   });
 
   const stream = await llm.stream(llmInput);
+
   return LangChainAdapter.toDataStreamResponse(stream);
 }
