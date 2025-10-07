@@ -16,7 +16,7 @@ export async function POST(req: NextRequest) {
   const llm = new ChatMistralAI({
     streamUsage: false,
     verbose: false,
-    model: "mistral-large-latest",
+    model: "mistral-small-2506",
     temperature: 0,
   });
 
@@ -24,9 +24,13 @@ export async function POST(req: NextRequest) {
 
   const vectorStore = new MemoryVectorStore(embeddings);
 
-  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
+  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, {
+    selector: "p",
+  });
 
   const htmlText = await cheerioLoader.load();
+
+  console.log("htmlText", htmlText);
 
   const splitter = new RecursiveCharacterTextSplitter({
     chunkSize: 3000,
@@ -43,6 +47,9 @@ export async function POST(req: NextRequest) {
     Keep the answer as concise as possible.`;
 
   const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
+
+  console.log("promptTemplate", promptTemplate);
+  console.log("userInput", userInput);
 
   const relatedDocs = await vectorStore.similaritySearch(userInput);
 
