@@ -133,7 +133,8 @@ export default function TwoBlockPage() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
-                      <Loader2 className="animate-spin" /> Processing Data...
+                      <Loader2 className="animate-spin" /> Processing Data. It
+                      may take a few seconds...
                     </>
                   ) : (
                     "Submit"
