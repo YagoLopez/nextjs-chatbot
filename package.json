@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@ai-sdk/google": "^2.0.17",
+    "@ai-sdk/huggingface": "^0.0.1",
     "@ai-sdk/mistral": "^2.0.17",
     "@ai-sdk/provider": "^2.0.0",
     "@ai-sdk/provider-utils": "^2.0.0",

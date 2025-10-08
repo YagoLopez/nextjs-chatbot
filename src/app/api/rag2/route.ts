@@ -1,4 +1,4 @@
-import { createGoogleGenerativeAI, google } from "@ai-sdk/google";
+import { huggingface } from "@ai-sdk/huggingface";
 import { streamText } from "ai";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -47,12 +47,8 @@ export async function POST(req: NextRequest) {
     remoteUrl,
   );
 
-  const google = createGoogleGenerativeAI({
-    apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-  });
-
   const result = streamText({
-    model: google("gemini-2.5-flash"),
+    model: huggingface("google/gemma-3-27b-it:nebius"),
     prompt: template,
     system: systemPrompt,
   });
