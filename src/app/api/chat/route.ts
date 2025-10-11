@@ -1,10 +1,10 @@
-import { streamText } from 'ai';
-import { mistral } from '@ai-sdk/mistral';
+import { streamText } from "ai";
+import { mistral } from "@ai-sdk/mistral";
 
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
-  const model = mistral('mistral-large-latest');
+  const model = mistral("mistral-large-latest");
   const { messages } = await req.json();
 
   const result = streamText({
@@ -12,6 +12,5 @@ export async function POST(req: Request) {
     messages,
   });
 
-  return result.toDataStreamResponse();
+  return result.toUIMessageStreamResponse();
 }
-
