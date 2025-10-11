@@ -134,7 +134,7 @@ export default function TwoBlockPage() {
                   {isLoading ? (
                     <>
                       <Loader2 className="animate-spin" /> Processing Data. It
-                      may take a few seconds...
+                      may take up to 60 seconds...
                     </>
                   ) : (
                     "Submit"

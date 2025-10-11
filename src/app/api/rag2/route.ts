@@ -1,4 +1,4 @@
-import { huggingface } from "@ai-sdk/huggingface";
+import { groq } from "@ai-sdk/groq";
 import { streamText } from "ai";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   );
 
   const result = streamText({
-    model: huggingface("google/gemma-3-27b-it:nebius"),
+    model: groq("llama-3.3-70b-versatile"),
     prompt: template,
     system: systemPrompt,
   });
