@@ -12,7 +12,7 @@ export function createPromptTemplate(
 ): string {
   return `Based on this question asked by the user: "${userInput}" and the current context: "${mergedRelatedDocs}" retrieved from the webpage: "${remoteUrl}",
   
-    I want you to answer the user's question".
+    I want you to answer the user's question.
   
     If you don't know the answer, just say that you couldn't find any information related in the provided context. 
     Don't try to make enough information to answer, don't try to make up an answer.
