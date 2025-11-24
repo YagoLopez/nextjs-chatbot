@@ -1,24 +1,22 @@
-import { ChatMistralAI } from "@langchain/mistralai";
+import { streamText } from "ai";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 
 import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
-import { ChatPromptTemplate } from "@langchain/core/prompts";
 
-import { LangChainAdapter } from "ai";
 import { type NextRequest } from "next/server";
+import { createPromptTemplate, systemPrompt } from "@/lib/utils";
+import { google } from "@ai-sdk/google";
+
+export const runtime = "edge";
+
+export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
   const { prompt: userInput } = await req.json();
-  const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
-  const llm = new ChatMistralAI({
-    streamUsage: false,
-    verbose: false,
-    model: "mistral-large-latest",
-    temperature: 0,
-  });
+  const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
   const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
 
@@ -32,17 +30,10 @@ export async function POST(req: NextRequest) {
     chunkSize: 3000,
     chunkOverlap: 400,
   });
+
   const chunkDocuments = await splitter.splitDocuments(htmlText);
 
   await vectorStore.addDocuments(chunkDocuments);
-
-  const template = `Given this text: "{context}" I want you to give an answer this question "{question}".
-  
-    If you don't know the answer, just say that you couldn't find any information related in the provided context. 
-    Don't try to make enough information to answer, don't try to make up an answer.
-    Keep the answer as concise as possible.`;
-
-  const promptTemplate = ChatPromptTemplate.fromMessages([["user", template]]);
 
   const relatedDocs = await vectorStore.similaritySearch(userInput);
 
@@ -50,11 +41,17 @@ export async function POST(req: NextRequest) {
     .map((doc) => doc.pageContent)
     .join("\n");
 
-  const llmInput = await promptTemplate.invoke({
-    question: userInput,
-    context: mergedRelatedDocs,
+  const template = createPromptTemplate(
+    userInput,
+    mergedRelatedDocs,
+    remoteUrl,
+  );
+
+  const result = streamText({
+    model: google("gemini-2.5-flash"),
+    prompt: template,
+    system: systemPrompt,
   });
 
-  const stream = await llm.stream(llmInput);
-  return LangChainAdapter.toDataStreamResponse(stream);
+  return result.toUIMessageStreamResponse();
 }

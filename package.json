@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ai-sdk/google": "^2.0.43",
     "@ai-sdk/groq": "^2.0.24",
     "@ai-sdk/mistral": "^2.0.17",
     "@ai-sdk/provider": "^2.0.0",
