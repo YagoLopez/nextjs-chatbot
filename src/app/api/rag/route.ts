@@ -1,4 +1,3 @@
-import { groq } from "@ai-sdk/groq";
 import { streamText } from "ai";
 import { MistralAIEmbeddings } from "@langchain/mistralai";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
@@ -8,6 +7,7 @@ import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/
 
 import { type NextRequest } from "next/server";
 import { createPromptTemplate, systemPrompt } from "@/lib/utils";
+import { google } from "@ai-sdk/google";
 
 export const runtime = "edge";
 
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
   );
 
   const result = streamText({
-    model: groq("llama-3.3-70b-versatile"),
+    model: google("gemini-2.5-flash"),
     prompt: template,
     system: systemPrompt,
   });

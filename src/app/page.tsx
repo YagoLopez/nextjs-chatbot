@@ -40,8 +40,11 @@ export default function TwoBlockPage() {
     handleSubmit,
     isLoading,
   } = useCompletion({
-    api: `/api/rag2?url=${getSelectedUrl(url1, url2)}`,
-    onError: (err) => alert("Response error:" + err),
+    api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
+    onError: (err) => {
+      alert("Response error:" + err);
+      console.error(err);
+    },
   });
 
   const onInputUrlChange = (e: ChangeEvent<HTMLInputElement>) =>
