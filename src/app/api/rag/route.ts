@@ -1,13 +1,6 @@
-import { streamText } from "ai";
-import { MistralAIEmbeddings } from "@langchain/mistralai";
-import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
-
-import { CheerioWebBaseLoader } from "@langchain/community/document_loaders/web/cheerio";
-
 import { type NextRequest } from "next/server";
-import { createPromptTemplate, systemPrompt } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
+import { streamText } from "ai";
 
 export const runtime = "edge";
 
@@ -18,39 +11,16 @@ export async function POST(req: NextRequest) {
 
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
-  const embeddings = new MistralAIEmbeddings({ model: "mistral-embed" });
+  const prompt = `Given this url: ${remoteUrl} and this request ${userInput} formulated by the user 
+    I want you to give me a response to the user request. The response should be brief and concise`;
 
-  const vectorStore = new MemoryVectorStore(embeddings);
-
-  const cheerioLoader = new CheerioWebBaseLoader(remoteUrl, { selector: "p" });
-
-  const htmlText = await cheerioLoader.load();
-
-  const splitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 3000,
-    chunkOverlap: 400,
-  });
-
-  const chunkDocuments = await splitter.splitDocuments(htmlText);
-
-  await vectorStore.addDocuments(chunkDocuments);
-
-  const relatedDocs = await vectorStore.similaritySearch(userInput);
-
-  const mergedRelatedDocs = relatedDocs
-    .map((doc) => doc.pageContent)
-    .join("\n");
-
-  const template = createPromptTemplate(
-    userInput,
-    mergedRelatedDocs,
-    remoteUrl,
-  );
-
+  // const { text, sources, providerMetadata } = streamText({
   const result = streamText({
     model: google("gemini-2.5-flash"),
-    prompt: template,
-    system: systemPrompt,
+    prompt,
+    tools: {
+      url_context: google.tools.urlContext({}),
+    },
   });
 
   return result.toUIMessageStreamResponse();
