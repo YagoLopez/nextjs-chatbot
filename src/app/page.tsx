@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "@ai-sdk/react";
 import { Loader2, Github } from "lucide-react";
+import { WordRotate } from "@/components/ui/word-rotate";
 
 import {
   Select,
@@ -135,8 +136,19 @@ export default function TwoBlockPage() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
-                      <Loader2 className="animate-spin" /> Processing Data. It
-                      may take up to 60 seconds...
+                      <Loader2 className="animate-spin" />{" "}
+                      <WordRotate
+                        words={[
+                          "Loading Remote Data",
+                          "Analyzing Request",
+                          "Preparing response",
+                        ]}
+                        animationStyle="fade"
+                        className="align-middle"
+                        duration={1200}
+                        pauseDuration={500}
+                        loop={true}
+                      />
                     </>
                   ) : (
                     "Submit"
