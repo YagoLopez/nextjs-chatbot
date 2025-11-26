@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     model: google("gemini-2.5-flash"),
     prompt,
     tools: {
-      url_context: google.tools.urlContext({}) as Tool<any, unknown>,
+      url_context: google.tools.urlContext({}) as Tool<{}, unknown>,
     },
   });
 
