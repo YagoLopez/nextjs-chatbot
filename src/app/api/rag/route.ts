@@ -7,6 +7,9 @@ export const runtime = "edge";
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
+  if (!req.headers.get("content-type")?.includes("application/json")) {
+    return new Response("Invalid content type", { status: 400 });
+  }
   const { prompt: userInput } = await req.json();
 
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
