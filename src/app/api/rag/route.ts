@@ -11,14 +11,13 @@ export async function POST(req: NextRequest) {
 
   const remoteUrl = req.nextUrl.searchParams.get("url") || "";
 
-  const prompt = `Given this url: ${remoteUrl} and this user question: ${userInput}  
-    I want you to give me a response. The response should be brief and concise`;
+  const prompt = `Given this url: ${remoteUrl} and this user question: ${userInput}, I want you to give me a response based on the content of the URL. The response should be brief and concise.\n\n    If you don't know the answer or cannot find the information in the provided URL, state that you could not find the relevant information in the provided context. Do not make up an answer.`;
 
   const result = streamText({
     model: google("gemini-2.5-flash"),
     prompt,
     tools: {
-      url_context: google.tools.urlContext({}) as Tool<{}, unknown>,
+      url_context: google.tools.urlContext({}) as Tool<unknown, unknown>,
     },
   });
 
