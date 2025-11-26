@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "@ai-sdk/react";
 import { Loader2, Github } from "lucide-react";
+import { WordRotate } from "@/components/ui/word-rotate";
 
 import {
   Select,
@@ -22,10 +23,9 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import Markdown from "react-markdown";
 import Link from "next/link";
 import { URLS } from "@/lib/utils";
-
+import { Streamdown } from "streamdown";
 const getSelectedUrl = (url1: string, url2: string) => (url1 ? url1 : url2);
 
 export default function TwoBlockPage() {
@@ -136,8 +136,19 @@ export default function TwoBlockPage() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
-                      <Loader2 className="animate-spin" /> Processing Data. It
-                      may take up to 60 seconds...
+                      <Loader2 className="animate-spin" />{" "}
+                      <WordRotate
+                        words={[
+                          "Loading Remote Data",
+                          "Analyzing Request",
+                          "Preparing response",
+                        ]}
+                        animationStyle="fade"
+                        className="align-middle"
+                        duration={1200}
+                        pauseDuration={500}
+                        loop={true}
+                      />
                     </>
                   ) : (
                     "Submit"
@@ -146,9 +157,9 @@ export default function TwoBlockPage() {
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
                 <CardContent className="p-4">
-                  <Markdown className="min-h-[290px] text-[14px] font-mono border-0">
+                  <Streamdown className="min-h-[290px] text-[14px] font-mono border-0">
                     {responseFromAI}
-                  </Markdown>
+                  </Streamdown>
                 </CardContent>
               </Card>
             </div>
