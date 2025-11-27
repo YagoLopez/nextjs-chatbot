@@ -9,7 +9,7 @@ import { type NextRequest } from "next/server";
 import { createPromptTemplate, systemPrompt } from "@/lib/utils";
 import { google } from "@ai-sdk/google";
 
-export const runtime = "edge";
+// export const runtime = "edge";
 
 export const maxDuration = 60;
 

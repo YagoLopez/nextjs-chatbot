@@ -129,7 +129,7 @@ export default function TwoBlockPage() {
                 <Input
                   id="question"
                   type="text"
-                  placeholder="For example: Make a summary of the text"
+                  placeholder="For example: Give me an example of Infer type operator"
                   value={userInput}
                   onChange={handleInputChange}
                 />

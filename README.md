@@ -30,7 +30,7 @@ The application uses several smart technologies working together:
 ## Installation
 
 - Install dependencies using npm, yarn, pnpm, or bun
-- Rename the file `.env.template` to `.env` and set up the following environment variables:  `MISTRAL_API_KEY`, `LANGCHAIN_API_KEY`. To get this keys you must sing-up to Mistral and LangChain websites
+- Rename the file `.env.template` to `.env` and set up the following environment variable:  `GOOGLE_GENERATIVE_AI_API_KEY`. To get this API key you must sing-up to Google AI Studio website
 
 ## Execution
 
