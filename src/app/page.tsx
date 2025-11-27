@@ -136,15 +136,11 @@ export default function TwoBlockPage() {
                 <Button type="submit" className="w-full" disabled={isLoading}>
                   {isLoading ? (
                     <>
-                      <Loader2 className="animate-spin" />{" "}
+                      <Loader2 className="animate-spin" />
                       <WordRotate
-                        words={[
-                          "Loading Remote Data",
-                          "Analyzing Request",
-                          "Preparing response",
-                        ]}
+                        words={["Loading Data", "Processisng Data"]}
                         animationStyle="fade"
-                        className="align-middle"
+                        className="align-middle mx-1"
                         duration={1200}
                         pauseDuration={500}
                         loop={true}
