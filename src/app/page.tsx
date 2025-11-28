@@ -138,10 +138,14 @@ export default function TwoBlockPage() {
                     <>
                       <Loader2 className="animate-spin" />
                       <WordRotate
-                        words={["Loading Data", "Processisng Data"]}
+                        words={[
+                          "Loading Data",
+                          "Processisng Data",
+                          "Rendering Data",
+                        ]}
                         animationStyle="fade"
                         className="align-middle mx-1"
-                        duration={1200}
+                        duration={1000}
                         pauseDuration={500}
                         loop={true}
                       />
