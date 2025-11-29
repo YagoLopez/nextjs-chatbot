@@ -7,6 +7,7 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { useCompletion } from "@ai-sdk/react";
 import { Loader2, Github } from "lucide-react";
 import { WordRotate } from "@/components/ui/word-rotate";
+import { Badge } from "@/components/ui/badge";
 
 import {
   Select,
@@ -39,6 +40,8 @@ export default function TwoBlockPage() {
     handleInputChange,
     handleSubmit,
     isLoading,
+    complete,
+    setInput,
   } = useCompletion({
     api: `/api/rag?url=${getSelectedUrl(url1, url2)}`,
     onError: (err) => {
@@ -46,6 +49,11 @@ export default function TwoBlockPage() {
       console.error(err);
     },
   });
+
+  const handleBadgeClick = (text: string) => {
+    setInput(text);
+    complete(text);
+  };
 
   const onInputUrlChange = (e: ChangeEvent<HTMLInputElement>) =>
     setUrl1(e.target.value);
@@ -154,6 +162,22 @@ export default function TwoBlockPage() {
                     "Submit"
                   )}
                 </Button>
+                <div className="flex gap-2">
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
+                    onClick={() => handleBadgeClick("Give me an example of Infer type operator")}
+                  >
+                    Example prompt: "Give me an example of Infer type operator"
+                  </Badge>
+                  <Badge
+                    variant="secondary"
+                    className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
+                    onClick={() => handleBadgeClick("Make a summary of the web page")}
+                  >
+                    Example prompt: "Make a summary of the web page"
+                  </Badge>
+                </div>
               </form>
               <Card className="flex-grow overflow-auto border border-blue-200">
                 <CardContent className="p-4">
