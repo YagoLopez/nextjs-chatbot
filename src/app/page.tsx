@@ -137,7 +137,7 @@ export default function TwoBlockPage() {
                 <Input
                   id="question"
                   type="text"
-                  placeholder="For example: Give me an example of Infer type operator"
+                  placeholder="Ask a question about the selected web page in the left..."
                   value={userInput}
                   onChange={handleInputChange}
                 />
@@ -166,16 +166,22 @@ export default function TwoBlockPage() {
                   <Badge
                     variant="secondary"
                     className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
-                    onClick={() => handleBadgeClick("Give me an example of Infer type operator")}
+                    onClick={() =>
+                      handleBadgeClick(
+                        "Give me an example of Infer type operator",
+                      )
+                    }
                   >
-                    Example prompt: "Give me an example of Infer type operator"
+                    Example: "Give me an example of Infer type operator"
                   </Badge>
                   <Badge
                     variant="secondary"
                     className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
-                    onClick={() => handleBadgeClick("Make a summary of the web page")}
+                    onClick={() =>
+                      handleBadgeClick("Make a summary of the web page")
+                    }
                   >
-                    Example prompt: "Make a summary of the web page"
+                    Example: "Make a summary of the web page"
                   </Badge>
                 </div>
               </form>
