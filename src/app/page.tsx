@@ -172,7 +172,8 @@ export default function TwoBlockPage() {
                       )
                     }
                   >
-                    Example: "Give me an example of Infer type operator"
+                    Example: &quot;Give me an example of Infer type
+                    operator&quot;
                   </Badge>
                   <Badge
                     variant="secondary"
@@ -181,7 +182,7 @@ export default function TwoBlockPage() {
                       handleBadgeClick("Make a summary of the web page")
                     }
                   >
-                    Example: "Make a summary of the web page"
+                    Example: &quot;Make a summary of the web page&quot;
                   </Badge>
                 </div>
               </form>
