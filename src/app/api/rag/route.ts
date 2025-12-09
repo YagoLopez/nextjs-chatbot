@@ -2,8 +2,6 @@ import { type NextRequest } from "next/server";
 import { google } from "@ai-sdk/google";
 import { streamText, Tool } from "ai";
 
-// export const runtime = "edge";
-
 export const maxDuration = 60;
 
 export async function POST(req: NextRequest) {
