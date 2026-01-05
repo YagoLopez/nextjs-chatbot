@@ -172,8 +172,7 @@ export default function TwoBlockPage() {
                       )
                     }
                   >
-                    Example: &quot;Give me an example of Infer type
-                    operator&quot;
+                    Example: &quot;Give me an example of Conditional Types&quot;
                   </Badge>
                   <Badge
                     variant="secondary"
