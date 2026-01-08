@@ -208,6 +208,7 @@ export default function TwoBlockPage() {
         </Link>
         <Link
           href="/api-docs"
+          target="_blank"
           className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
           title="See the performance audit of this page"
         >
