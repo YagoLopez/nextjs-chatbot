@@ -172,7 +172,8 @@ export default function TwoBlockPage() {
                       )
                     }
                   >
-                    Example: &quot;Give me an example of Conditional Types&quot;
+                    Example: &quot;Give me a code example of Conditional
+                    Types&quot;
                   </Badge>
                   <Badge
                     variant="secondary"
