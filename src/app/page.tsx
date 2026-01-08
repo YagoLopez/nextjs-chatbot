@@ -168,11 +168,12 @@ export default function TwoBlockPage() {
                     className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
                     onClick={() =>
                       handleBadgeClick(
-                        "Give me an example of Infer type operator",
+                        "Give me a code example of Conditional Types",
                       )
                     }
                   >
-                    Example: &quot;Give me an example of Conditional Types&quot;
+                    Example: &quot;Give me a code example of Conditional
+                    Types&quot;
                   </Badge>
                   <Badge
                     variant="secondary"
@@ -196,22 +197,31 @@ export default function TwoBlockPage() {
           </div>
         </CardContent>
       </Card>
-      <Link
-        href="/lighthouse.html"
-        target="_blank"
-        className="flex items-center justify-center text-[16px] hover:text-cyan-950 text-bold text-white"
-        title="See the performance audit of this page"
-      >
-        📊 Performance Audit
-      </Link>
-      <a
-        href="https://github.com/YagoLopez/nextjs-chatbot"
-        className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
-        target="_blank"
-      >
-        <Github className="w-6 p-[3px] m-1" />
-        <div>View project on GitHub</div>
-      </a>
+      <div className="flex flex-row gap-10 justify-center">
+        <Link
+          href="/lighthouse.html"
+          target="_blank"
+          className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
+          title="See the performance audit of this page"
+        >
+          📊 Performance Audit
+        </Link>
+        <Link
+          href="/api-docs"
+          className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
+          title="See the performance audit of this page"
+        >
+          📃 API Documentation
+        </Link>
+        <a
+          href="https://github.com/YagoLopez/nextjs-chatbot"
+          className="flex items-center justify-center text-[14px] hover:text-cyan-950 text-bold text-white"
+          target="_blank"
+        >
+          <Github className="w-6 p-[3px] m-1" />
+          <div>View project on GitHub</div>
+        </a>
+      </div>
     </div>
   );
 }

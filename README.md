@@ -19,6 +19,10 @@ This project is a Next.js-based web application designed to allow users to inter
 
 - https://nextjs-chatbot-pied.vercel.app/
 
+## API Documentation
+
+- https://nextjs-chatbot-pied.vercel.app/api-docs/
+
 ## Performance Audit
 - https://nextjs-chatbot-pied.vercel.app/lighthouse.html
 
