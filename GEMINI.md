@@ -1,4 +1,4 @@
-# Next.js RAG AI Chatbot
+# Project Context: Next.js RAG AI Chatbot
 
 ## Project Overview
 This project is a Next.js-based web application designed to allow users to interact with and ask questions about web page content using AI. It implements Retrieval Augmented Generation (RAG) to provide accurate, context-aware answers based on provided URLs.
@@ -14,13 +14,6 @@ This project is a Next.js-based web application designed to allow users to inter
     *   **Google Gemini:** Used for generation (`gemini-2.5-flash`) and URL context analysis.
     *   **Mistral AI:** Used for embeddings (`mistral-embed`) and direct chat (`mistral-large-latest`).
 *   **Tools:** ESLint, Prettier, Turbopack.
-
-## Demo
-
-- https://nextjs-chatbot-pied.vercel.app/
-
-## Performance Audit
-- https://nextjs-chatbot-pied.vercel.app/lighthouse.html
 
 ## Architecture & Key Features
 
