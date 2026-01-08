@@ -168,7 +168,7 @@ export default function TwoBlockPage() {
                     className="cursor-pointer hover:bg-zinc-200 border-2 border-gray-300 shadow-lg font-light rounded-md"
                     onClick={() =>
                       handleBadgeClick(
-                        "Give me an example of Infer type operator",
+                        "Give me a code example of Conditional Types",
                       )
                     }
                   >

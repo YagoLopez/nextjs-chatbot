@@ -5,7 +5,7 @@ const config = {
   darkMode: true,
   theme: "Elysia.js",
   spec: {
-    url: "/openapi.json",
+    url: "/api/openapi",
   },
 };
 
